@@ -43,7 +43,7 @@ class StudentHome extends Component {
         return (
             <Wrap>
                 <AppHeader/>
-                <Button variant="primary" size="lg" onChange={this.handleLogout}> Sign Out</Button>
+                <Button variant="primary" size="lg" onClick={this.handleLogout}> Sign Out</Button>
                 <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
                     <Tab eventKey="profile" title="Profile">
                         <Profile />
