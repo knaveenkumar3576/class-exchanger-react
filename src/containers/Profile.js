@@ -18,16 +18,16 @@ class Profile extends Component {
         }
     }
 
-    // componentDidMount() {
-    //     axiosHandler.get('list_subjects')
-    //     .then(response => {
-    //         console.log(response);
-    //         this.setState( {
-    //             course_info: response.data
-    //         })
-    //     });
+    componentDidMount() {
+        axiosHandler.get('list_subjects')
+        .then(response => {
+            console.log(response);
+            this.setState( {
+                course_info: response.data
+            })
+        });
 
-    // }
+    }
   
     handleHasCourse = (option) => {
         console.log(option);

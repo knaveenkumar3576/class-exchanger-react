@@ -41,11 +41,6 @@ class Home extends Component {
     
     render() {
         if (this.props.isAuthenticated) {
-                // <Wrap>
-                //     <Layout>
-                    
-                //     </Layout>
-                // </Wrap>
             return (    
                 <div>
                     <p>Home Page</p>
