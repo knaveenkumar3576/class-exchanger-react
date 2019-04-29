@@ -1,26 +1,41 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route } from 'react-router-dom'; 
+
 import './App.css';
+import app from './firebaseConfig';
+
+import Layout from './HOC/Layout'
 
 class App extends Component {
+
+  componentDidMount() {
+    // app.auth()
+    //     .onAuthStateChanged((user) => {
+    //       console.log("State changed");
+    //       if (user) {
+    //         console.log(user);
+    //         this.setState({
+    //           authenticated: true, 
+    //           user: user
+    //         });
+    //       }
+    //       else {
+    //         this.setState({
+    //           authenticated: false,
+    //           user: null
+    //         });
+    //       }
+    //       console.log("auth: " + this.state.authenticated);
+    //     });
+  }
+
+  componentWillUnmount() {
+    
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Layout> </Layout>
     );
   }
 }
