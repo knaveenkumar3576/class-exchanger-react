@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import app from '../firebaseConfig';
+import firebase from 'firebase';
 
 import {connect} from 'react-redux'
 import * as authActions from '../store/actions/auth'
@@ -21,6 +22,7 @@ class Login extends React.Component {
     }
 
     componentWillMount() {
+        console.log("login props authenticated: " + this.props.authenticated);
         if (this.props.isAuthenticated) 
             this.props.history.push('/');
     }
@@ -34,21 +36,31 @@ class Login extends React.Component {
     }
 
     handleSubmit() {
-        app.auth()
-            .signInWithEmailAndPassword(this.state.email, this.state.password)
+        let self = this;
+        console.log("STATE: ");
+        console.log(this.state);
+        app.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+            console.log(self.state.email);
+            console.log(self.state.password);
+            app.auth()
+            .signInWithEmailAndPassword(self.state.email, self.state.password)
             .then((credentials) => {
-
-                this.props.setIsAuthenticatedFlag(true);
-                this.props.setLoggedInUser(credentials.user.email);
-
+                self.props.setIsAuthenticatedFlag(true);
+                self.props.setLoggedInUser(credentials.user.email);
                 // this.props.onSuccess(this.state.authenticated, this.state.user);
                 console.log("Redirecting to /");
-                this.props.history.push("/");
+                self.props.history.push("/");
             })
             .catch((error) => {
-                console.log("error login: ");
+                console.log("error signin with : ");
                 console.log(error);
             });
+        })
+        .catch((error) => {
+            console.log('error persistence: ');
+            console.log(error);
+        });
     }
 
     render() {

@@ -15,3 +15,9 @@ export const setLoggedInUser=(user)=> {
         user: user,        
     }
 }
+
+export const LogoutUser = () => {
+    return {
+        type: actionTypes.LOGOUT_USER
+    }
+}

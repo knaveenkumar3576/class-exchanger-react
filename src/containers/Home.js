@@ -18,34 +18,29 @@ class Home extends Component {
             userEmail: ''
         };
 
-        this.handleLogout = this.handleLogout.bind(this);
+        // this.handleLogout = this.handleLogout.bind(this);
     }
 
 
-    handleLogout() {
-      console.log("Handle logout "); 
-      app.auth()
-        .signOut()
-        .then(() => {
-            this.props.setIsAuthenticatedFlag(false);
-            console.log("Redirecting to /");
-            this.props.history.push("/");
-        })
-        .catch((error) => {
-          console.log("Error occured in signout");
-          console.log('error: ');
-          console.log(error);
-        });
-    }
+    // handleLogout() {
+    //   console.log("Handle logout "); 
+    //   app.auth()
+    //     .signOut()
+    //     .then(() => {
+    //         this.props.setIsAuthenticatedFlag(false);
+    //         console.log("Redirecting to /");
+    //         this.props.history.push("/");
+    //     })
+    //     .catch((error) => {
+    //       console.log("Error occured in signout");
+    //       console.log('error: ');
+    //       console.log(error);
+    //     });
+    // }
 
     
     render() {
         if (this.props.isAuthenticated) {
-                // <Wrap>
-                //     <Layout>
-                    
-                //     </Layout>
-                // </Wrap>
             return (    
                 <div>
                     <p>Home Page</p>
