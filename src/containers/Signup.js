@@ -21,10 +21,11 @@ class Signup extends Component {
             phone: ''
         };
 
-        this.handleUsernameChange = this.handleUsernameChange.bind(this);
+        this.handleUsernameChange = this.handleUsernameChange.bind(this); // Username is fuillnane
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handlePasswordConfChange = this.handlePasswordConfChange.bind(this);
         this.handlePhoneChange = this.handlePhoneChange.bind(this);
     }
 
@@ -62,12 +63,26 @@ class Signup extends Component {
 
     handleSubmit() {
         console.log("Handle submit from signup.js");
-        console.log("email: " + this.state.email);
-        console.log("password: " + this.state.password);
+        const { username, email, password, phone } = this.state;
+        console.log('email: ' + email);
+        console.log('password: ' + password);
+        console.log('Fullname: ' + username);
+        console.log('phone: ' + phone);
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
         app.auth()
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .createUserWithEmailAndPassword(email, password)
             .then((credentials) => {
+                credentials.updateProfile({
+                    displayName: username,
+                    phoneNumber: phone
+                }).then(function () {
+                    console.log('Profile updated successfully!');
+                    // "Jane Q. User"
+                    // "https://example.com/jane-q-user/profile.jpg"
+                }, function (error) {
+                    // An error happened.
+                    console.log('Error updating profile');
+                });
                 this.props.setIsAuthenticatedFlag(true);
                 this.props.setLoggedInUser(credentials.user.email);
                 this.props.history.push("/");
@@ -88,7 +103,7 @@ class Signup extends Component {
                 <form className="ui form">
                     <div class="field">
                         <label>Username</label>
-                        <input id="username" className="pasword-field" placeholder="Username" value={this.state.username} onChange={this.handlePasswordChange} />
+                        <input id="username" className="pasword-field" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange} />
                     </div>
                     <div className="field">
                         <label>Email ID</label>
