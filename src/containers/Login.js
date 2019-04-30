@@ -22,9 +22,7 @@ class Login extends React.Component {
     }
 
     componentWillMount() {
-        console.log("login props authenticated: " + this.props.authenticated);
-        if (this.props.isAuthenticated) 
-            this.props.history.push('/');
+        console.log("this.props.isAuthenticated" + this.props.isAuthenticated)
     }
     
     handleEmailChange(event) {
@@ -64,6 +62,10 @@ class Login extends React.Component {
     }
 
     render() {
+
+        if (this.props.isAuthenticated) 
+            this.props.history.push('/');
+
         return (
             <div>
                 <p>Login</p>
