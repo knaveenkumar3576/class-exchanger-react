@@ -1,32 +1,29 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'; 
 
-import './App.css';
+import {connect} from 'react-redux'
 import app from './firebaseConfig';
+
+import * as authActions from './store/actions/auth'
 
 import Layout from './HOC/Layout'
 
+import './App.css';
+
 class App extends Component {
 
-  componentDidMount() {
-    // app.auth()
-    //     .onAuthStateChanged((user) => {
-    //       console.log("State changed");
-    //       if (user) {
-    //         console.log(user);
-    //         this.setState({
-    //           authenticated: true, 
-    //           user: user
-    //         });
-    //       }
-    //       else {
-    //         this.setState({
-    //           authenticated: false,
-    //           user: null
-    //         });
-    //       }
-    //       console.log("auth: " + this.state.authenticated);
-    //     });
+  componentWillMount() {
+    app.auth()
+        .onAuthStateChanged((user) => {
+          if (user) {
+            this.props.setIsAuthenticatedFlag(true)
+            this.props.setLoggedInUser(user.email)
+         }
+          else {
+            this.props.setIsAuthenticatedFlag(false)
+            this.props.setLoggedInUser("")
+          }
+        });
   }
 
   componentWillUnmount() {
@@ -40,4 +37,19 @@ class App extends Component {
   }
 }
 
-export default App;
+
+const mapStateToProps = (state) => {
+  return {
+      isAuthenticated : state.auth.isAuthenticated,  
+      user: state.auth.user  
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { 
+      setIsAuthenticatedFlag :(isAuthenticated) => dispatch(authActions.setIsAuthenticatedFlag(isAuthenticated)),   
+      setLoggedInUser :(user) => dispatch(authActions.setLoggedInUser(user)), 
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
