@@ -5,73 +5,122 @@ import {Row, Col, Container, Button, Tabs, Tab} from 'react-bootstrap'
 
 import ReactSuperSelect from 'react-super-select'
 
-import './Profile.css';
 import axiosHandler from '../HOC/axios-course';
+import {connect} from 'react-redux'
 
+import './Profile.css';
 class Profile extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-
+            course_info: [], 
+            selected_courses: {
+                has : [],
+                wants: []
+            }       
         }
     }
 
     componentDidMount() {
-        axiosHandler.get('list_subjects')
+       
+        axiosHandler.get('/list_subjects')
+        .then(response => {
+
+            let courses = response.data.map(function(c, i) {            
+                let courseModified = {
+                    id: i,
+                    code : c.Code,
+                    subject : c.Code.split(/[0-9](.+)/)[0],
+                    label : c.Code + "-" + c.Name
+                }
+                return courseModified;
+            });
+
+            this.setState({
+                course_info: courses
+            });
+
+
+        });
+
+        axiosHandler.get('/info/' + this.props.user)
         .then(response => {
             console.log(response);
-            this.setState( {
-                course_info: response.data
+            this.setState({
+                selected_courses : {
+                    has : response.data.has,
+                    wants : response.data.wants
+                }
             })
         });
 
     }
   
-    handleHasCourse = (option) => {
-        console.log(option);
+    handleHasCourse = (options) => {
+
+        let selected_has=[];
+
+        if(typeof options != 'undefined') {
+            selected_has = options.map((option) => {
+                return option.code;
+            });       
+        }
+
+        this.setState({
+            selected_courses : {
+                ...this.state.selected_courses,
+                has : selected_has
+            }
+        })        
     }
 
-    handleWantsCourse = () => {
-
+    handleWantsCourse = (options) => {
+        let selected_wants=[];
+        if(typeof options != 'undefined') {
+            selected_wants = options.map((option) => {
+                return option.code;
+            });       
+        }
+            
+        this.setState({
+            selected_courses : {
+                ...this.state.selected_courses,
+                wants : selected_wants
+            }
+        })        
+        
     }
   
     handleSavePreferences = () => {
 
+        axiosHandler.post("addHas/" + this.props.user + "/" + this.state.selected_courses.has.join(","))
+        .then((response) => {
+            console.log("Success");
+        })
+        .catch(function(response){
+            console.log('Failed to save wants' + response);
+        });           
+
+        axiosHandler.post("addWants/" + this.props.user + "/" + this.state.selected_courses.wants.join(","))
+        .then((response) => {
+            console.log("Success");
+        })
+        .catch(function(response){
+            console.log('Failed to save wants' + response);
+        });           
     }    
 
     render() {
 
-        let selected_courses = ["CSE531", "CSE575"];
+        let has_courses_info = this.state.course_info.filter(function(item){
+            return this.state.selected_courses.has.includes(item.code);         
+        }, this);
 
-        let course_info = [
-            {"Code":"APM598","Name":"Intro to Deep Neural Networks"},
-            {"Code":"CSE512","Name":"Distributed Database Systems"},
-            {"Code":"CSE531","Name":"Distributed/Multiprocessor Operating Systems"},
-            {"Code":"CSE535","Name":"Mobile Computing"},
-            {"Code":"CSE545","Name":"Software Security"},
-            {"Code":"CSE569","Name":"Fundamentals of Stat. Learning"},
-            {"Code":"CSE575","Name":"Statistical Machine Learning"},
-            {"Code":"CSE578","Name":"Data Visualization"},
-            {"Code":"EEE511","Name":"Artificial Neural Computation"},
-            {"Code":"EEE591","Name":"Python for Rapid Engineering Solutions"}
-        ]
-
-        let courses = course_info.map(function(c, i) {            
-            let courseModified = {
-                id: i,
-                code : c.Code,
-                subject : c.Code.split(/[0-9](.+)/)[0],
-                label : c.Code + "-" + c.Name
-            }
-            return courseModified;
-        });
-
-        let selected_courses_info = [
-            {id: 3, code: "CSE535", subject: "CSE", label: "CSE535-Mobile Computing"},
-            {id: 4, code: "CSE545", subject: "CSE", label: "CSE545-Software Security"}
-        ]
+        let wants_courses_info = this.state.course_info.filter(function(item){
+            return this.state.selected_courses.wants.includes(item.code);         
+        }, this);
 
 
         return (
@@ -79,8 +128,8 @@ class Profile extends Component {
                 <Row>
                     <Col>
                         <ReactSuperSelect
-                            dataSource={courses}
-                            initialValue={selected_courses_info}
+                            dataSource={this.state.course_info}
+                            initialValue={has_courses_info}
                             onChange={this.handleHasCourse}
                             optionLabelKey="label"
                             placeholder="Pick an Course"
@@ -93,8 +142,9 @@ class Profile extends Component {
                     </Col>
                     <Col>
                         <ReactSuperSelect
-                            dataSource={courses}
-                            onChange={this.handleHasCourse}
+                            dataSource={this.state.course_info}
+                            initialValue={wants_courses_info}
+                            onChange={this.handleWantsCourse}
                             optionLabelKey="label"
                             placeholder="Pick an Course"
                             searchable={true}
@@ -110,11 +160,25 @@ class Profile extends Component {
                 </Row>
 
                 <Row>
-                    <Button variant="primary" size="lg" onChange={this.handleSavePreferences}> Save preferences</Button>
+                    <Button variant="primary" size="lg" onClick={this.handleSavePreferences}> Save preferences</Button>
                 </Row>
             </Container>
       );
     }
 };
 
-export default Profile;
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user  
+    };
+}
+
+// const mapDispatchToProps = (dispatch) => {
+//     return { 
+//         setIsAuthenticatedFlag :(isAuthenticated) => dispatch(authActions.setIsAuthenticatedFlag(isAuthenticated)),    
+//     };
+// }
+
+
+export default connect(mapStateToProps, null)(Profile)
