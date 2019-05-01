@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import {Row, Col, Container, Button, Tabs, Tab} from 'react-bootstrap'
 
-import ReactSuperSelect from 'react-super-select'
-
 import axiosHandler from '../HOC/axios-course';
 import {connect} from 'react-redux'
 
-import './Profile.css';
+import SuperSelect from '../components/SuperSelect'
+
+import classes from './Profile.css'
 class Profile extends Component {
 
     constructor(props) {
@@ -24,7 +24,6 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-       
         axiosHandler.get('/list_subjects')
         .then(response => {
 
@@ -41,20 +40,26 @@ class Profile extends Component {
             this.setState({
                 course_info: courses
             });
-
-
         });
+    }
 
-        axiosHandler.get('/info/' + this.props.user)
-        .then(response => {
-            console.log(response);
-            this.setState({
-                selected_courses : {
-                    has : response.data.has,
-                    wants : response.data.wants
+    componentDidUpdate(prevProps) {
+
+        if(this.props.user !== prevProps.user) {
+            axiosHandler.get('/info/' + this.props.user)
+            .then(response => {
+                console.log("info" + JSON.stringify(response));
+                
+                if(response.data != null) {
+                    this.setState({
+                        selected_courses : {
+                            has : response.data.has || [],
+                            wants : response.data.wants || []
+                        }
+                    })    
                 }
-            })
-        });
+            });    
+        }
 
     }
   
@@ -100,7 +105,7 @@ class Profile extends Component {
             console.log("Success");
         })
         .catch(function(response){
-            console.log('Failed to save wants' + response);
+            console.log('Failed to save has' + response);
         });           
 
         axiosHandler.post("addWants/" + this.props.user + "/" + this.state.selected_courses.wants.join(","))
@@ -124,45 +129,32 @@ class Profile extends Component {
 
 
         return (
-            <Container>
-                <Row>
-                    <Col>
-                        <ReactSuperSelect
-                            dataSource={this.state.course_info}
-                            initialValue={has_courses_info}
-                            onChange={this.handleHasCourse}
-                            optionLabelKey="label"
-                            placeholder="Pick an Course"
-                            searchable={true}
-                            searchPlaceholder="Search Course"
-                            multiple={true}
-                            keepOpenOnSelection={true}
-                            closeOnSelectedOptionClick={false}
-                            groupBy="subject" />
-                    </Col>
-                    <Col>
-                        <ReactSuperSelect
-                            dataSource={this.state.course_info}
-                            initialValue={wants_courses_info}
-                            onChange={this.handleWantsCourse}
-                            optionLabelKey="label"
-                            placeholder="Pick an Course"
-                            searchable={true}
-                            searchPlaceholder="Search Course"
-                            multiple={true}
-                            keepOpenOnSelection={true}
-                            closeOnSelectedOptionClick={false}
-                            groupBy="subject" 
+            <div className={classes.profile}>
+                <Container className={classes.profile}>
+                    <Row>
+                        <Col>
+                        <SuperSelect
+                            options={this.state.course_info}
+                            selectedValues={has_courses_info}
+                            onChangeHandler={this.handleHasCourse}
                         />
 
-                    </Col>
+                        </Col>
+                        <Col>
+                            <SuperSelect
+                                options={this.state.course_info}
+                                selectedValues={wants_courses_info}
+                                onChangeHandler={this.handleWantsCourse}
+                            />
+                        </Col>
 
-                </Row>
+                    </Row>
 
-                <Row>
-                    <Button variant="primary" size="lg" onClick={this.handleSavePreferences}> Save preferences</Button>
-                </Row>
-            </Container>
+                    <Row>
+                        <Button className={classes.savepreferences} variant="primary" size="lg" onClick={this.handleSavePreferences}> Save preferences</Button>
+                    </Row>
+                </Container>
+            </div> 
       );
     }
 };

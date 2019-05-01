@@ -99,7 +99,7 @@ class Signup extends Component {
 
         return (
             <div>
-                <p>Signup</p>
+                <h1>Signup</h1>
                 <form className="ui form">
                     <div class="field">
                         <label>Username</label>

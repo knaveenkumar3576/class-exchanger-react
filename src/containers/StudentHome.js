@@ -42,10 +42,9 @@ class StudentHome extends Component {
     render() {
         return (
             <Wrap>
-                <AppHeader/>
-                <form onSubmit={this.handleLogout}>
-                    <Button variant="primary" size="lg" type="submit" > Sign Out</Button>
-                </form>
+                <AppHeader 
+                    handleSubmit={this.handleLogout}
+                />
                 <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
                     <Tab eventKey="profile" title="Profile">
                         <Profile />

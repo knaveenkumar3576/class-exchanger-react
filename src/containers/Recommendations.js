@@ -62,32 +62,76 @@ class Recommendations extends Component {
 
         let recommendations=[];
 
+        // sampledata.forEach((data) => {
+        //     let nodes =[];
+        //     let edges =[];
 
-        sampledata.forEach((data) => {
-            let nodes =[];
-            let edges =[];
+        //     for (let user in data) {
+        //         nodes.push({
+        //             id : user,
+        //             label: user
+        //         });
+        //         edges.push({
+        //             id : user + data[user].target,
+        //             source: user,
+        //             target: data[user].target,
+        //             label: data[user].subjects.join(",")
+        //         })
+        //     }
 
-            for (let user in data) {
-                nodes.push({
-                    id : user,
-                    label: user
-                });
-                edges.push({
-                    id : user + data[user].target,
-                    source: user,
-                    target: data[user].target,
-                    label: data[user].subjects.join(",")
+        //     recommendations.push({
+        //         nodes : nodes,
+        //         edges : edges  
+        //     });
+
+        //     console.log(recommendations);
+        // })
+
+
+        let sampledata2 = {
+            3 : [ 
+                    [{giver: "u2", taker: "u1", subject: "CS101"}, {giver: "u3", taker:"u2", subject:"CS102"}, {giver: "u1", taker:"u3", subject: "CS103"}],
+                    [{giver: "u2", taker: "u1", subject: "CS101"}, {giver: "u5", taker:"u2", subject:"CS102"}, {giver: "u1", taker:"u5", subject: "CS103"}],
+            ],
+
+            4:  [ 
+                    [{giver: "u2", taker: "u1", subject: "CS101"}, {giver: "u3", taker:"u2", subject:"CS102"}, {giver: "u1", taker:"u3", subject: "CS103"}],
+                    [{giver: "u2", taker: "u1", subject: "CS101"}, {giver: "u5", taker:"u2", subject:"CS102"}, {giver: "u1", taker:"u5", subject: "CS103"}],
+            ], 
+        }
+
+
+        for (let cycleValue in sampledata2) {
+
+            sampledata2[cycleValue].forEach((currCycleData) => {
+                let nodes =[];
+                let edges =[];    
+
+                currCycleData.forEach((transaction) => {
+                    nodes.push({
+                        id : transaction.giver,
+                        label : transaction.giver
+                    });
+
+                    edges.push({
+                        id : transaction.giver + "_" + transaction.taker,
+                        source: transaction.giver,
+                        target: transaction.taker,
+                        label: transaction.subject
+                    })    
                 })
-            }
 
-            recommendations.push({
-                nodes : nodes,
-                edges : edges  
-            });
+                recommendations.push({
+                    nodes : nodes,
+                    edges : edges  
+                });
+        
+                console.log(recommendations);
+        
+            })
 
-            console.log(recommendations);
-        })
 
+        }
 
 
         // let recommendations = [
