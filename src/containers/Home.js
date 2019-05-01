@@ -42,14 +42,7 @@ class Home extends Component {
     render() {
         if (this.props.isAuthenticated) {
             return (    
-                <div>
-                    <p>Home Page</p>
-                    <p> Welcome {this.props.user} </p>
-
-                    <StudentHome> 
-
-                    </StudentHome>
-                </div> 
+                <StudentHome />
             )
         }
         else {

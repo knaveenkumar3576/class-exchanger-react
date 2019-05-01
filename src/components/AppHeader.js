@@ -11,22 +11,18 @@ import classes from './AppHeader.css';
 const AppHeader = (props) => {
     return (
 
-        <div className={classes.title}>
-           Class Exchange Helper
-        </div>
-
-        // <Navbar>
-        //     <Navbar.Brand href="#home">Class Exchange Helper</Navbar.Brand>
-        //     <Navbar.Toggle />
-        //     <Navbar.Collapse className="justify-content-end">
-        //         <Navbar.Text>
-        //             Signed in as: {props.user}
-        //         </Navbar.Text>
-        //         <Form inline  onSubmit={props.handleSubmit}>
-        //             <Button type="submit" variant="danger">Sign Out</Button>
-        //         </Form>
-        //     </Navbar.Collapse>
-        // </Navbar>
+        <Navbar>
+            <Navbar.Brand>Class Exchange Helper</Navbar.Brand>
+            <Navbar.Toggle />
+            <Navbar.Collapse className="justify-content-end">
+                <Navbar.Text>
+                    Welcome {props.user}
+                </Navbar.Text>
+                <Form inline  onSubmit={props.handleSubmit}>
+                    <Button type="submit" variant="danger">Sign Out</Button>
+                </Form>
+            </Navbar.Collapse>
+        </Navbar>
     );
 }
 

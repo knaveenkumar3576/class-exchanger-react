@@ -8,9 +8,7 @@ import * as authActions from './store/actions/auth'
 
 import Layout from './HOC/Layout'
 
-// import classes from './App.css';
-// import classes from '*.module.scss';
-
+import classes from './App.module.css'
 
 class App extends Component {
 
@@ -33,19 +31,9 @@ class App extends Component {
   }
 
   render() {
-    let classes = {
-      sample : {
-        color: 'blue',
-        padding: '20px'
-      },
-      sample2 : {
-        color: 'red'
-      },
-    };
 
     return (
-      <div className={classes.sample}> Hello </div> 
-      // <Layout> </Layout>
+      <Layout> </Layout>
     );
   }
 }

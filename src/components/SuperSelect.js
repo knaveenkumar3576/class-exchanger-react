@@ -8,23 +8,23 @@ import * as authActions from '../store/actions/auth'
 
 import Wrap from '../HOC/Wrap';
 
-import classes from './SuperSelect.css';
+import './SuperSelect.css';
 
-const AppHeader = (props) => {
+const SuperSelect = (props) => {
     return (
-        <ReactSuperSelect
-            dataSource={props.options}
-            initialValue={props.selectedValues}
-            onChange={props.onChangeHandler}
-            optionLabelKey="label"
-            placeholder="Pick an Course"
-            searchable={true}
-            searchPlaceholder="Search Course"
-            multiple={true}
-            keepOpenOnSelection={true}
-            closeOnSelectedOptionClick={false}
-            groupBy="subject" 
-        />
+            <ReactSuperSelect
+                dataSource={props.options}
+                initialValue={props.selectedValues}
+                onChange={props.onChangeHandler}
+                optionLabelKey="label"
+                placeholder="Pick an Course"
+                searchable={true}
+                searchPlaceholder="Search Course"
+                multiple={true}
+                keepOpenOnSelection={true}
+                closeOnSelectedOptionClick={false}
+                groupBy="subject" 
+            />
     );
 }
 
@@ -35,4 +35,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps, null)(AppHeader)
+export default connect(mapStateToProps, null)(SuperSelect)

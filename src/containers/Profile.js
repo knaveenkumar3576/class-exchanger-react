@@ -8,7 +8,7 @@ import {connect} from 'react-redux'
 
 import SuperSelect from '../components/SuperSelect'
 
-import classes from './Profile.css'
+import classes from './Profile.module.css'
 class Profile extends Component {
 
     constructor(props) {
@@ -129,15 +129,23 @@ class Profile extends Component {
 
 
         return (
-            <div className={classes.profile}>
                 <Container className={classes.profile}>
                     <Row>
                         <Col>
-                        <SuperSelect
-                            options={this.state.course_info}
-                            selectedValues={has_courses_info}
-                            onChangeHandler={this.handleHasCourse}
-                        />
+                            <div className={classes.title}> HAS </div>
+                        </Col>
+                        <Col>
+                            <div className={classes.title}> WANTS </div>
+                        </Col>
+                    </Row>
+                    <Row>
+
+                        <Col>
+                            <SuperSelect
+                                options={this.state.course_info}
+                                selectedValues={has_courses_info}
+                                onChangeHandler={this.handleHasCourse}
+                            />
 
                         </Col>
                         <Col>
@@ -149,12 +157,13 @@ class Profile extends Component {
                         </Col>
 
                     </Row>
-
+                   
                     <Row>
                         <Button className={classes.savepreferences} variant="primary" size="lg" onClick={this.handleSavePreferences}> Save preferences</Button>
                     </Row>
+
                 </Container>
-            </div> 
+            // </div> 
       );
     }
 };
