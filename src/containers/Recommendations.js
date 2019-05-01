@@ -4,17 +4,19 @@ import { withRouter, Link } from 'react-router-dom';
 import {Accordion, Card} from 'react-bootstrap'
 
 
+import Wrap from '../HOC/Wrap'
 import Recommendation from '../components/Recommendation'
 import MyVerticallyCenteredModal from './MyVerticallyCenteredModal'
 
-
+import classes from './Recommendations.module.css'
 class Recommendations extends Component {
 
     constructor(props) {
         super(props)    
         this.state = {
             modalShow : false,
-            selectedRecommendation: 0
+            selectedRecommendation: 0,
+            user: "u1"
         }
     }
 
@@ -106,6 +108,8 @@ class Recommendations extends Component {
             sampledata2[cycleValue].forEach((currCycleData) => {
                 let nodes =[];
                 let edges =[];    
+                let letSubject ="";
+                let takeSubject ="";
 
                 currCycleData.forEach((transaction) => {
                     nodes.push({
@@ -118,12 +122,19 @@ class Recommendations extends Component {
                         source: transaction.giver,
                         target: transaction.taker,
                         label: transaction.subject
-                    })    
+                    })
+                    
+                    if(transaction.giver == this.state.user) letSubject = transaction.subject;
+                    if(transaction.taker == this.state.user) takeSubject = transaction.subject;
+
                 })
 
                 recommendations.push({
+                    cycleLen: cycleValue,
                     nodes : nodes,
-                    edges : edges  
+                    edges : edges,
+                    letSubject : letSubject,
+                    takeSubject: takeSubject
                 });
         
                 console.log(recommendations);
@@ -177,7 +188,8 @@ class Recommendations extends Component {
         });
 
         return (
-            <div>
+            <div className={classes.recommendations}>
+                
                 <Accordion defaultActiveKey="0">            
                     {recommendationComps}
                 </Accordion>

@@ -1,0 +1,19 @@
+  .heading {
+    font-size: 72px;
+    background: -webkit-linear-gradient(96deg,#3f51b5,#673ab7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .close  {
+    background-image: linear-gradient(96deg,#3f51b5,#673ab7);
+    width: 100%;
+  }
+
+  /* .title {
+    font-size: 20px;
+    background: -webkit-linear-gradient( rgb(216, 177, 78),  #910505);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  } */
+  

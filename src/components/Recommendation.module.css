@@ -1,0 +1,18 @@
+.recommendation {
+    width: '18rem' !important;
+    background-color: #FF4081 !important;
+    margin-top: 10px;
+}
+
+.recommendationbody {
+    background-color: #F5F5F5 !important;
+}
+
+.steps {
+    color:#3E50B4;
+}
+
+.graphbutton {
+    float: right;
+    background-image: linear-gradient(96deg,#3f51b5,#673ab7);
+}

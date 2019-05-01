@@ -5,46 +5,27 @@ import {Sigma, EdgeShapes, ForceAtlas2, RandomizeNodePositions, RelativeSize} fr
 
 import Wrap from '../HOC/Wrap';
 import MyVerticallyCenteredModal from '../containers/MyVerticallyCenteredModal'
+import RecommendationBody from './RecommendationBody'
 
-// const Recommendation = (props) => {
-//     return (
-//         <Card>
-//             <Accordion.Toggle as={Card.Header} eventKey={props.key}>
-//                 {props.header}
-//             </Accordion.Toggle>
-//             <Accordion.Collapse eventKey={props.key}>
-//                 <Card.Body>
-//                     <Sigma renderer="canvas" graph={props.data} settings={{ drawEdges: true, drawEdgeLabels: true, mouseEnabled: false}}>
-//                         <EdgeShapes default="curvedArrow"/>
-//                         <RandomizeNodePositions>
-//                             <ForceAtlas2 iterationsPerRender={1} timeout={10000}/>
-//                             <RelativeSize initialSize={10}/>
-//                         </RandomizeNodePositions>
-//                     </Sigma>
-//                 </Card.Body>
-//             </Accordion.Collapse>
-//         </Card>
-
-//     );
-// }
-
+import classes from './Recommendation.module.css'
 
 const Recommendation = (props) => {
     return (
-        <Card>
+        <Card text="white" className={classes.recommendation} > 
             <Accordion.Toggle as={Card.Header} eventKey={props.index}>
-                {props.header}
-            </Accordion.Toggle>
+                {"Give " + props.data.letSubject + ", Get "  + props.data.takeSubject + " with " + props.data.cycleLen + " swaps"}
+
+                <Button
+                    className={classes.graphbutton}
+                    onClick={() => props.modalOpen(props.index)}
+                >
+                Graph View
+                </Button>
+            </Accordion.Toggle> 
             <Accordion.Collapse eventKey={props.index}>
-                <Card.Body>
-                    <ButtonToolbar>
-                        <Button
-                        variant="primary"
-                        onClick={() => props.modalOpen(props.index)}
-                        >
-                        Launch vertically centered modal
-                        </Button>
-                    </ButtonToolbar>
+                <Card.Body className={classes.recommendationbody}>
+
+                    <RecommendationBody data={props.data} />                    
                 </Card.Body>
             </Accordion.Collapse>
         </Card>

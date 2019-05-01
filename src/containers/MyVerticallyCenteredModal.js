@@ -4,6 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 import {Modal, Button} from 'react-bootstrap'
 import {Sigma, EdgeShapes, ForceAtlas2, RandomizeNodePositions, RelativeSize} from 'react-sigma';
 
+import classes from './MyVerticallyCenteredModal.module.css'
 
 class MyVerticallyCenteredModal extends React.Component {
     
@@ -16,8 +17,8 @@ class MyVerticallyCenteredModal extends React.Component {
           centered
         >
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
-              Modal heading
+            <Modal.Title className={classes.heading} id="contained-modal-title-vcenter">
+              {"Give " + this.props.data.letSubject + ", Get "  + this.props.data.takeSubject}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -30,7 +31,7 @@ class MyVerticallyCenteredModal extends React.Component {
                 </Sigma>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.props.onHide}>Close</Button>
+            <Button className={classes.close} onClick={this.props.onHide}>Close</Button>
           </Modal.Footer>
         </Modal>
       );
