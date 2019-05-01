@@ -6,18 +6,15 @@ import * as authActions from '../store/actions/auth'
 
 import Wrap from '../HOC/Wrap';
 
-import classes from './AppHeader.css';
+import classes from './AppHeader.module.css';
 
 const AppHeader = (props) => {
     return (
 
-        <Navbar>
-            <Navbar.Brand>Class Exchange Helper</Navbar.Brand>
+        <Navbar className={classes.header}>
+            <Navbar.Brand className={classes.title}>Class Exchange Helper</Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
-                <Navbar.Text>
-                    Welcome {props.user}
-                </Navbar.Text>
                 <Form inline  onSubmit={props.handleSubmit}>
                     <Button type="submit" variant="danger">Sign Out</Button>
                 </Form>

@@ -66,6 +66,7 @@ class StudentHome extends Component {
                 <AppHeader 
                     handleSubmit={this.handleLogout}
                 />
+                
                 <Tabs tabs={tabs} activeTab={activeTabIndex} onTabChange={this.onTabChange} />
                 {selectedTabContent}
             </Wrap>

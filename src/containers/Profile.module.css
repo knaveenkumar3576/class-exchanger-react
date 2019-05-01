@@ -2,10 +2,11 @@
     height: 500px;
     margin : 100px;
     padding: 30px;
-    background: #ebebeb !important;
+    border: 5px solid #1C6EA4;
   }
 
   .savepreferences {
+    background-image: linear-gradient(96deg,#3f51b5,#673ab7);
     margin-top : 400px;
     width: 100%;
   }

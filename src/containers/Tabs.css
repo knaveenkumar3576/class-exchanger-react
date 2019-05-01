@@ -21,13 +21,14 @@ html, body {
 }
 
 .tabs {
+  margin-top: 50px;
   width: auto;
   height: 40px;
   display: flex;
 }
 
 .tab {
-  padding: 0 15px;
+  padding: 0 20%;
   width: auto;
   height: 36px;
   display: flex;
