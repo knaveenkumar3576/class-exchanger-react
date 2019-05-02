@@ -87,11 +87,11 @@ class Login extends React.Component {
                                     <input id="password" className="pasword-field" placeholder="Last Name" value={this.state.password} onChange={this.handlePasswordChange} />
                                 </div> */}
                                 <Form.Group controlId="formBasicPassword">
-                                    <Form.Label>Email ID</Form.Label>
+                                    {/* <Form.Label>Email ID</Form.Label> */}
                                     <Form.Control type="text" placeholder="Email ID" value={this.state.email} onChange={this.handleEmailChange} />
                                 </Form.Group>
                                 <Form.Group controlId="formBasicPassword">
-                                    <Form.Label>Password</Form.Label>
+                                    {/* <Form.Label>Password</Form.Label> */}
                                     <Form.Control type="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange}/>
                                 </Form.Group>
                                 <Button variant="primary" type="button" onClick={this.handleSubmit}>
@@ -102,11 +102,15 @@ class Login extends React.Component {
                         <Col></Col>
                     </Row>
                     <Row>
-                        <p> Don't have an account?
-                            <Link to="/signup">
-                                Signup
-                            </Link>
-                        </p>
+                        <Col></Col>
+                        <Col md={6}>
+                            <p> Don't have an account?
+                                <Link to="/signup">
+                                    Signup
+                                </Link>
+                            </p>
+                        </Col>
+                        <Col></Col>
                     </Row>
                 </Container>
                 

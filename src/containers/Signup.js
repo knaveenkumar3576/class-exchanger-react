@@ -90,6 +90,12 @@ class Signup extends Component {
             emailErr = 'Email ID is not valid!';
             errorFlag = true;
         }
+        if (isEmail(email)) {
+            if (!email.endsWith('asu.edu')) {
+                emailErr = 'Email should be a valid ASU email ID';
+                errorFlag = true;
+            }
+        }
         if (username.length == 0) {
             usernameErr = 'Invalid username';
             errorFlag = true;
@@ -149,7 +155,7 @@ class Signup extends Component {
                             <input id="username" className="pasword-field" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange} />
                         </div> */}
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Username</Form.Label>
+                            {/* <Form.Label>Username</Form.Label> */}
                             <Form.Control type="text" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange} />
                             <Form.Text className="text-muted"> {this.state.usernameError ? this.state.usernameError : ""} </Form.Text>
                         </Form.Group>
@@ -158,7 +164,7 @@ class Signup extends Component {
                             <input id="email" className="email-field" placeholder="Email ID" value={this.state.email} onChange={this.handleEmailChange} />
                         </div> */}
                         <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
+                            {/* <Form.Label>Password</Form.Label> */}
                             <Form.Control type="email" className="email-field" placeholder="Email ID" value={this.state.email} onChange={this.handleEmailChange} />
                             <Form.Text className="text-muted"> {this.state.emailError ? this.state.emailError : ""} </Form.Text>
                         </Form.Group>
@@ -167,7 +173,7 @@ class Signup extends Component {
                             <input id="password" type="password" className="pasword-field" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} />
                         </div> */}
                         <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
+                            {/* <Form.Label>Password</Form.Label> */}
                             <Form.Control type="password" className="pasword-field" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} />
                             <Form.Text className="text-muted"> {this.state.passwordError ? this.state.passwordError : ""} </Form.Text>
                         </Form.Group>
@@ -176,7 +182,7 @@ class Signup extends Component {
                             <input id="passwordConf" type="password" className="pasword-field" placeholder="Confirm Password" value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
                         </div> */}
                         <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Password Confirmation</Form.Label>
+                            {/* <Form.Label>Password Confirmation</Form.Label> */}
                             <Form.Control type="password" className="password-conf-field" placeholder="Password Confirmation" value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
                             <Form.Text className="text-muted"> {this.state.passwordError ? this.state.passwordError : ""} </Form.Text>
                         </Form.Group>
@@ -185,7 +191,7 @@ class Signup extends Component {
                             <input id="passwordConf" className="pasword-field" placeholder="Phone" value={this.state.phone} onChange={this.handlePhoneChange} />
                         </div> */}
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Phone</Form.Label>
+                            {/* <Form.Label>Phone</Form.Label> */}
                             <Form.Control type="number" className="phone-field" placeholder="Phone number" value={this.state.phone} onChange={this.handlePhoneChange} />
                             <Form.Text className="text-muted"> {this.state.phoneError ? this.state.phoneError : ""} </Form.Text>
                         </Form.Group>
@@ -195,11 +201,15 @@ class Signup extends Component {
                     <Col></Col>
                 </Row>
                 <Row>
+                    <Col></Col>
+                    <Col md={6}>
                     <p> Already have an account?
                         <Link to="/login" >
                             Login
                         </Link>
                     </p>
+                    </Col>
+                    <Col></Col>
                 </Row>
                 </Container>
                 
