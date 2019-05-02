@@ -14,7 +14,9 @@ const Recommendation = (props) => {
         <Card text="white" className={classes.recommendation} > 
             <Accordion.Toggle as={Card.Header} eventKey={props.index}>
                 {"Give " + props.data.letSubject + ", Get "  + props.data.takeSubject + " with " + props.data.cycleLen + " swaps"}
-
+                <div>
+                {"Click to Expand"} 
+                </div>               
                 <Button
                     className={classes.graphbutton}
                     onClick={() => props.modalOpen(props.index)}
