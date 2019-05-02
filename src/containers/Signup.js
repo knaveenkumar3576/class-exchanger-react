@@ -186,7 +186,7 @@ class Signup extends Component {
                         </div> */}
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Phone</Form.Label>
-                            <Form.Control type="password" className="phone-field" placeholder="Phone number" value={this.state.phone} onChange={this.handlePhoneChange} />
+                            <Form.Control type="number" className="phone-field" placeholder="Phone number" value={this.state.phone} onChange={this.handlePhoneChange} />
                             <Form.Text className="text-muted"> {this.state.phoneError ? this.state.phoneError : ""} </Form.Text>
                         </Form.Group>
                         <button type="button" className="ui button" onClick={this.handleSubmit}>Submit</button> 
