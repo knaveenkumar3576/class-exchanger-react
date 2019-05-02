@@ -7,9 +7,8 @@ import app from '../firebaseConfig';
 
 import {connect} from 'react-redux'
 import * as authActions from '../store/actions/auth'
-import  { Container, Row, Col, Form } from 'react-bootstrap';
+import  { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import isEmail from 'validator/lib/isEmail';
-
 class Signup extends Component {
 
     constructor(props) {
@@ -96,7 +95,7 @@ class Signup extends Component {
                 errorFlag = true;
             }
         }
-        if (username.length == 0) {
+        if (username.length === 0) {
             usernameErr = 'Invalid username';
             errorFlag = true;
         }
@@ -157,7 +156,7 @@ class Signup extends Component {
                         <Form.Group controlId="formBasicEmail">
                             {/* <Form.Label>Username</Form.Label> */}
                             <Form.Control type="text" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange} />
-                            <Form.Text className="text-muted"> {this.state.usernameError ? this.state.usernameError : ""} </Form.Text>
+                            <Form.Text className="text-muted" style={{color: 'red'}}> {this.state.usernameError ? this.state.usernameError : ""} </Form.Text>
                         </Form.Group>
                         {/* <div className="field">
                             <label>Email ID</label>
@@ -166,7 +165,7 @@ class Signup extends Component {
                         <Form.Group controlId="formBasicPassword">
                             {/* <Form.Label>Password</Form.Label> */}
                             <Form.Control type="email" className="email-field" placeholder="Email ID" value={this.state.email} onChange={this.handleEmailChange} />
-                            <Form.Text className="text-muted"> {this.state.emailError ? this.state.emailError : ""} </Form.Text>
+                            <Form.Text className="text-muted" style={{color: 'red'}}> {this.state.emailError ? this.state.emailError : ""} </Form.Text>
                         </Form.Group>
                         {/* <div class="field">
                             <label>Password</label>
@@ -175,7 +174,7 @@ class Signup extends Component {
                         <Form.Group controlId="formBasicPassword">
                             {/* <Form.Label>Password</Form.Label> */}
                             <Form.Control type="password" className="pasword-field" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} />
-                            <Form.Text className="text-muted"> {this.state.passwordError ? this.state.passwordError : ""} </Form.Text>
+                            <Form.Text className="text-muted" style={{color: 'red'}}> {this.state.passwordError ? this.state.passwordError : ""} </Form.Text>
                         </Form.Group>
                         {/* <div class="field">
                             <label>Confirm Password</label>
@@ -184,7 +183,7 @@ class Signup extends Component {
                         <Form.Group controlId="formBasicPassword">
                             {/* <Form.Label>Password Confirmation</Form.Label> */}
                             <Form.Control type="password" className="password-conf-field" placeholder="Password Confirmation" value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
-                            <Form.Text className="text-muted"> {this.state.passwordError ? this.state.passwordError : ""} </Form.Text>
+                            <Form.Text className="text-muted" style={{color: 'red'}}> {this.state.passwordError ? this.state.passwordError : ""} </Form.Text>
                         </Form.Group>
                         {/* <div class="field">
                             <label>Phone</label>
@@ -193,9 +192,11 @@ class Signup extends Component {
                         <Form.Group controlId="formBasicEmail">
                             {/* <Form.Label>Phone</Form.Label> */}
                             <Form.Control type="number" className="phone-field" placeholder="Phone number" value={this.state.phone} onChange={this.handlePhoneChange} />
-                            <Form.Text className="text-muted"> {this.state.phoneError ? this.state.phoneError : ""} </Form.Text>
+                            <Form.Text className="text-muted" style={{color: 'red'}}> {this.state.phoneError ? this.state.phoneError : ""} </Form.Text>
                         </Form.Group>
-                        <button type="button" className="ui button" onClick={this.handleSubmit}>Submit</button> 
+                        <Button type="button" onClick={this.handleSubmit}>
+                            Submit
+                        </Button>
                     </Form>
                     </Col>
                     <Col></Col>
