@@ -7,9 +7,8 @@ import app from '../firebaseConfig';
 
 import {connect} from 'react-redux'
 import * as authActions from '../store/actions/auth'
-import  { Container, Row, Col, Form } from 'react-bootstrap';
+import  { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import isEmail from 'validator/lib/isEmail';
-
 class Signup extends Component {
 
     constructor(props) {
@@ -220,7 +219,9 @@ class Signup extends Component {
                             <Form.Control type="number" className="phone-field" placeholder="Phone number" value={this.state.phone} onChange={this.handlePhoneChange} />
                             <Form.Text className="text-muted"> {this.state.phoneErr ? this.state.phoneErr : ""} </Form.Text>
                         </Form.Group>
-                        <button type="button" className="ui button" onClick={this.handleSubmit}>Submit</button> 
+                        <Button type="button" onClick={this.handleSubmit}>
+                            Submit
+                        </Button>
                     </Form>
                     </Col>
                     <Col></Col>
