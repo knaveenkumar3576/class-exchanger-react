@@ -44,11 +44,15 @@ class Recommendations extends Component {
                         let edges =[];    
                         let letSubject ="";
                         let takeSubject ="";
-        
+                        let subjectEmptyFlag =0;
+
+
                         currCycleData.forEach((transaction) => {
                             console.log(transaction)
                             let subjects = transaction.subject.join(",")
                             
+                            if(transaction.subject.length == 0) subjectEmptyFlag =1;
+
                             nodes.push({
                                 id : transaction.giver,
                                 label : transaction.giver.toString()
@@ -66,13 +70,15 @@ class Recommendations extends Component {
         
                         })
         
-                        recommendations.push({
-                            cycleLen: cycleValue,
-                            nodes : nodes,
-                            edges : edges,
-                            letSubject : letSubject,
-                            takeSubject: takeSubject
-                        });
+                        if(subjectEmptyFlag == 0) {
+                            recommendations.push({
+                                cycleLen: cycleValue,
+                                nodes : nodes,
+                                edges : edges,
+                                letSubject : letSubject,
+                                takeSubject: takeSubject
+                            });    
+                        }
                 
                     })
                     
