@@ -12,7 +12,7 @@ const AppHeader = (props) => {
     return (
 
         <Navbar className={classes.header}>
-            <Navbar.Brand className={classes.title}>Class Exchange Helper</Navbar.Brand>
+            <Navbar.Brand className={classes.title}>exCHAINger</Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
                 <Form inline  onSubmit={props.handleSubmit}>

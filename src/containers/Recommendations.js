@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 // import { ReactDOM } from 'react-dom';
 import { withRouter, Link } from 'react-router-dom';
-import {Accordion, Card} from 'react-bootstrap'
+import {Accordion, Card, Button} from 'react-bootstrap'
 
+import axiosHandler from '../HOC/axios-course';
+import {connect} from 'react-redux'
 
 import Wrap from '../HOC/Wrap'
 import Recommendation from '../components/Recommendation'
@@ -15,10 +17,88 @@ class Recommendations extends Component {
         super(props)    
         this.state = {
             modalShow : false,
-            selectedRecommendation: 0,
-            user: "u1"
+            recommendations: [],
+            selectedRecommendation: null,
+            user: 1
         }
     }
+
+
+    componentWillMount() {
+
+    }
+
+    componentDidMount() {
+        this.refreshReco();
+    } 
+
+    refreshReco = () => {
+
+        console.log("refreshReco");
+
+        let sampledata = [
+            {
+                '4': [
+                    [{'giver': 1, 'taker': 0, 'subject': ['CSE502']}, {'giver': 2, 'taker': 1, 'subject': ['CSE503']}, {'giver': 3, 'taker': 2, 'subject': ['CSE504']}, {'giver': 0, 'taker': 3, 'subject': ['CSE501']}]
+                ]
+            },
+            {
+                '4': [
+                    [{'giver': 1, 'taker': 0, 'subject': ['CSE512']}, {'giver': 2, 'taker': 1, 'subject': ['CSE523']}, {'giver': 3, 'taker': 2, 'subject': ['CSE544']}, {'giver': 0, 'taker': 3, 'subject': ['CSE501']}]
+                ]
+            },
+        ]
+
+        let selected = Math.floor(Math.random() * 20) %2;
+
+        console.log(selected);
+
+        for (let cycleValue in sampledata[selected]) {
+            let recommendations=[];
+            console.log(sampledata[selected])
+            sampledata[selected][cycleValue].forEach((currCycleData) => {
+                let nodes =[];
+                let edges =[];    
+                let letSubject ="";
+                let takeSubject ="";
+
+                currCycleData.forEach((transaction) => {
+                    console.log(transaction)
+                    let subjects = transaction.subject.join(",")
+                    nodes.push({
+                        id : transaction.giver,
+                        label : transaction.giver.toString()
+                    });
+
+                    edges.push({
+                        id : transaction.giver + "_" + transaction.taker,
+                        source: transaction.giver,
+                        target: transaction.taker,
+                        label: subjects
+                    })
+                    
+                    if(transaction.giver == this.state.user) letSubject = subjects;
+                    if(transaction.taker == this.state.user) takeSubject = subjects;
+
+                })
+
+                recommendations.push({
+                    cycleLen: cycleValue,
+                    nodes : nodes,
+                    edges : edges,
+                    letSubject : letSubject,
+                    takeSubject: takeSubject
+                });
+        
+            })
+            
+            this.setState({
+                recommendations:recommendations
+            })
+        }
+         
+    }
+
 
     modalClose = () => {
         this.setState({ modalShow: false });
@@ -34,148 +114,7 @@ class Recommendations extends Component {
 
     render() {
 
-        let sampledata = [
-            {
-                "u1" : {
-                    target: "u2",
-                    subjects: ["CSE801", "CSE805"]
-                },
-                "u2" : {
-                    target: "u3",
-                    subjects: ["CSE802"]
-                },
-                "u3" : {
-                    target: "u1",
-                    subjects: ["CSE800"]
-                }
-            },
-            {
-                "u1" : {
-                    target: "u3",
-                    subjects: ["CSE801", "CSE805"]
-                },
-                "u3" : {
-                    target: "u1",
-                    subjects: ["CSE800"]
-                }
-            },
-        ];
-
-
-        let recommendations=[];
-
-        // sampledata.forEach((data) => {
-        //     let nodes =[];
-        //     let edges =[];
-
-        //     for (let user in data) {
-        //         nodes.push({
-        //             id : user,
-        //             label: user
-        //         });
-        //         edges.push({
-        //             id : user + data[user].target,
-        //             source: user,
-        //             target: data[user].target,
-        //             label: data[user].subjects.join(",")
-        //         })
-        //     }
-
-        //     recommendations.push({
-        //         nodes : nodes,
-        //         edges : edges  
-        //     });
-
-        //     console.log(recommendations);
-        // })
-
-
-        let sampledata2 = {
-            3 : [ 
-                    [{giver: "u2", taker: "u1", subject: "CS101"}, {giver: "u3", taker:"u2", subject:"CS102"}, {giver: "u1", taker:"u3", subject: "CS103"}],
-                    [{giver: "u2", taker: "u1", subject: "CS101"}, {giver: "u5", taker:"u2", subject:"CS102"}, {giver: "u1", taker:"u5", subject: "CS103"}],
-            ],
-
-            4:  [ 
-                    [{giver: "u2", taker: "u1", subject: "CS101"}, {giver: "u3", taker:"u2", subject:"CS102"}, {giver: "u1", taker:"u3", subject: "CS103"}],
-                    [{giver: "u2", taker: "u1", subject: "CS101"}, {giver: "u5", taker:"u2", subject:"CS102"}, {giver: "u1", taker:"u5", subject: "CS103"}],
-            ], 
-        }
-
-
-        for (let cycleValue in sampledata2) {
-
-            sampledata2[cycleValue].forEach((currCycleData) => {
-                let nodes =[];
-                let edges =[];    
-                let letSubject ="";
-                let takeSubject ="";
-
-                currCycleData.forEach((transaction) => {
-                    nodes.push({
-                        id : transaction.giver,
-                        label : transaction.giver
-                    });
-
-                    edges.push({
-                        id : transaction.giver + "_" + transaction.taker,
-                        source: transaction.giver,
-                        target: transaction.taker,
-                        label: transaction.subject
-                    })
-                    
-                    if(transaction.giver == this.state.user) letSubject = transaction.subject;
-                    if(transaction.taker == this.state.user) takeSubject = transaction.subject;
-
-                })
-
-                recommendations.push({
-                    cycleLen: cycleValue,
-                    nodes : nodes,
-                    edges : edges,
-                    letSubject : letSubject,
-                    takeSubject: takeSubject
-                });
-        
-                console.log(recommendations);
-        
-            })
-
-
-        }
-
-
-        // let recommendations = [
-        //     {
-        //         nodes: [
-        //             {id: 'a', label: 'A'},
-        //             {id: 'b', label: 'B'},
-        //             {id: 'c', label: 'C'}
-        //         ],
-        //         edges: [
-        //             {id: 'a_to_b', source: 'a', target: 'b', label: 'A -> B' },
-        //             {id: 'b_to_c', source: 'b', target: 'c', label: 'B -> C' },
-        //             {id: 'c_to_a', source: 'c', target: 'a', label: 'C -> A' },
-        //             {id: 'b_to_a1', source: 'b', target: 'a', label: 'B -> A1' },
-        //             {id: 'b_to_a2', source: 'b', target: 'a', label: 'B -> A2' }
-        //         ]
-        //     },
-        //     {
-        //         nodes: [
-        //             {id: 'a', label: 'A'},
-        //             {id: 'b', label: 'B'},
-        //             {id: 'c', label: 'C'}
-        //         ],
-        //         edges: [
-        //             {id: 'a_to_b', source: 'a', target: 'b', label: 'A -> B' },
-        //             {id: 'b_to_c', source: 'b', target: 'c', label: 'B -> C' },
-        //             {id: 'b_to_a', source: 'b', target: 'a', label: 'B -> A' }
-        //         ]
-        //     },
-        // ];   
-
-
-        let recommendationComps = recommendations.map((r , i) => {
+        let recommendationComps = this.state.recommendations.map((r , i) => {
             return (
                 <Recommendation
                     index={i}
@@ -189,20 +128,37 @@ class Recommendations extends Component {
 
         return (
             <div className={classes.recommendations}>
-                
+                <Button className={classes.refreshbutton} variant="primary" size="lg" onClick={this.refreshReco}> Refresh Recommendations </Button>
+
                 <Accordion defaultActiveKey="0">            
                     {recommendationComps}
                 </Accordion>
 
-                <MyVerticallyCenteredModal
-                    data={recommendations[this.state.selectedRecommendation]}
-                    show={this.state.modalShow}
-                    onHide={this.modalClose}
-                />
+                {
+                    this.state.selectedRecommendation != null ? 
+                        <MyVerticallyCenteredModal
+                            data={this.state.recommendations[this.state.selectedRecommendation]}
+                            show={this.state.modalShow}
+                            onHide={this.modalClose}
+                        /> : null
+                }
             </div>
 
         );
     }
 };
 
-export default Recommendations;
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user  
+    };
+}
+
+// const mapDispatchToProps = (dispatch) => {
+//     return { 
+//         setIsAuthenticatedFlag :(isAuthenticated) => dispatch(authActions.setIsAuthenticatedFlag(isAuthenticated)),    
+//     };
+// }
+
+
+export default connect(mapStateToProps, null)(Recommendations)
