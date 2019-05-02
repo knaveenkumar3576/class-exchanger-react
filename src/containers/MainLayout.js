@@ -14,7 +14,7 @@ class MainLayout extends Component {
     render() {        
         return (
             <Switch>
-                <Route exact path="/" render={() => <Login/> } />  
+                <Route exact path="/" render={() => <Home/> } />  
                 <Route exact path="/login" render={() => <Login/> } /> 
                 <Route exact path="/signup" render={() => <Signup/> } />
             </Switch>
