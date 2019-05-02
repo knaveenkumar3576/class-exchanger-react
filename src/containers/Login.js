@@ -6,6 +6,8 @@ import firebase from 'firebase';
 import {connect} from 'react-redux'
 import * as authActions from '../store/actions/auth'
 
+import { Container, Col, Row, Form, Button } from 'react-bootstrap';
+
 class Login extends React.Component {
 
     constructor(props) {
@@ -26,10 +28,12 @@ class Login extends React.Component {
     }
     
     handleEmailChange(event) {
+        console.log(event.target.value);
         this.setState({email: event.target.value})
     }
 
     handlePasswordChange(event) {
+        console.log(event.target.value);
         this.setState({password: event.target.value})
     }
 
@@ -68,18 +72,36 @@ class Login extends React.Component {
 
         return (
             <div>
-                <p>Login</p>
-                <form className="ui form">
-                    <div className="field">
-                        <label>Email ID</label>
-                        <input id="email" className="email-field" placeholder="First Name" value={this.state.email} onChange={this.handleEmailChange} />
-                    </div>
-                    <div className="field">
-                        <label>Password</label>
-                        <input id="password" className="pasword-field" placeholder="Last Name" value={this.state.password} onChange={this.handlePasswordChange} />
-                    </div>
-                    <button type="button" className="ui button" onClick={this.handleSubmit}>Submit</button> 
-                </form>
+                <Container>
+                    <Row>
+                        <Col></Col>
+                        <Col md={6}>
+                            <h1>Login</h1>
+                            <Form>
+                                {/* <div className="field">
+                                    <label>Email ID</label>
+                                    <input id="email" className="email-field" placeholder="First Name" value={this.state.email} onChange={this.handleEmailChange} />
+                                </div>
+                                <div className="field">
+                                    <label>Password</label>
+                                    <input id="password" className="pasword-field" placeholder="Last Name" value={this.state.password} onChange={this.handlePasswordChange} />
+                                </div> */}
+                                <Form.Group controlId="formBasicPassword">
+                                    <Form.Label>Email ID</Form.Label>
+                                    <Form.Control type="text" placeholder="Email ID" value={this.state.email} onChange={this.handleEmailChange} />
+                                </Form.Group>
+                                <Form.Group controlId="formBasicPassword">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control type="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange}/>
+                                </Form.Group>
+                                <Button variant="primary" type="button" onClick={this.handleSubmit}>
+                                    Submit
+                                </Button>
+                            </Form>
+                            </Col>
+                        <Col></Col>
+                    </Row>
+                </Container>
             </div> 
         )
     }
