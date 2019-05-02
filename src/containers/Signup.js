@@ -7,6 +7,7 @@ import app from '../firebaseConfig';
 
 import {connect} from 'react-redux'
 import * as authActions from '../store/actions/auth'
+import  { Container, Row, Col, Form } from 'react-bootstrap';
 
 class Signup extends Component {
 
@@ -99,30 +100,61 @@ class Signup extends Component {
 
         return (
             <div>
-                <h1>Signup</h1>
-                <form className="ui form">
-                    <div class="field">
-                        <label>Username</label>
-                        <input id="username" className="pasword-field" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange} />
-                    </div>
-                    <div className="field">
-                        <label>Email ID</label>
-                        <input id="email" className="email-field" placeholder="Email ID" value={this.state.email} onChange={this.handleEmailChange} />
-                    </div>
-                    <div class="field">
-                        <label>Password</label>
-                        <input id="password" type="password" className="pasword-field" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} />
-                    </div>
-                    <div class="field">
-                        <label>Confirm Password</label>
-                        <input id="passwordConf" type="password" className="pasword-field" placeholder="Confirm Password" value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
-                    </div>
-                    <div class="field">
-                        <label>Phone</label>
-                        <input id="passwordConf" className="pasword-field" placeholder="Phone" value={this.state.phone} onChange={this.handlePhoneChange} />
-                    </div>
-                    <button type="button" className="ui button" onClick={this.handleSubmit}>Submit</button> 
-                </form>
+                <Container>
+                <Row>
+                    <Col></Col>
+                    <Col md={6}>
+                    <h1>Signup</h1>
+                    <Form>
+                        {/* <div class="field">
+                            <label>Username</label>
+                            <input id="username" className="pasword-field" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange} />
+                        </div> */}
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control type="text" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange} />
+                            <Form.Text className="text-muted"> {this.state.usernameError ? this.state.usernameError : ""} </Form.Text>
+                        </Form.Group>
+                        {/* <div className="field">
+                            <label>Email ID</label>
+                            <input id="email" className="email-field" placeholder="Email ID" value={this.state.email} onChange={this.handleEmailChange} />
+                        </div> */}
+                        <Form.Group controlId="formBasicPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="email" className="email-field" placeholder="Email ID" value={this.state.email} onChange={this.handleEmailChange} />
+                            <Form.Text className="text-muted"> {this.state.emailError ? this.state.emailError : ""} </Form.Text>
+                        </Form.Group>
+                        {/* <div class="field">
+                            <label>Password</label>
+                            <input id="password" type="password" className="pasword-field" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} />
+                        </div> */}
+                        <Form.Group controlId="formBasicPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="password" className="pasword-field" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} />
+                            <Form.Text className="text-muted"> {this.state.passwordError ? this.state.passwordError : ""} </Form.Text>
+                        </Form.Group>
+                        {/* <div class="field">
+                            <label>Confirm Password</label>
+                            <input id="passwordConf" type="password" className="pasword-field" placeholder="Confirm Password" value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
+                        </div> */}
+                        <Form.Group controlId="formBasicPassword">
+                            <Form.Label>Password Confirmation</Form.Label>
+                            <Form.Control type="password" className="password-conf-field" placeholder="Password Confirmation" value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
+                        </Form.Group>
+                        {/* <div class="field">
+                            <label>Phone</label>
+                            <input id="passwordConf" className="pasword-field" placeholder="Phone" value={this.state.phone} onChange={this.handlePhoneChange} />
+                        </div> */}
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Label>Phone</Form.Label>
+                            <Form.Control type="password" className="phone-field" placeholder="Phone number" value={this.state.phone} onChange={this.handlePhoneChange} />
+                        </Form.Group>
+                        <button type="button" className="ui button" onClick={this.handleSubmit}>Submit</button> 
+                    </Form>
+                    </Col>
+                    <Col></Col>
+                </Row>
+                </Container>
             </div> 
         )
     }
