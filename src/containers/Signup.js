@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 // import { ReactDOM } from 'react-dom';
 // import { Link } from 'react-router-dom';
 import firebase from 'firebase';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import app from '../firebaseConfig';
 
 import {connect} from 'react-redux'
 import * as authActions from '../store/actions/auth'
 import  { Container, Row, Col, Form } from 'react-bootstrap';
+import isEmail from 'validator/lib/isEmail';
 
 class Signup extends Component {
 
@@ -64,11 +65,45 @@ class Signup extends Component {
 
     handleSubmit() {
         console.log("Handle submit from signup.js");
-        const { username, email, password, phone } = this.state;
+        const { username, email, password, passwordConf, phone } = this.state;
         console.log('email: ' + email);
         console.log('password: ' + password);
         console.log('Fullname: ' + username);
         console.log('phone: ' + phone);
+
+        var passwordErr = '';
+        var phoneErr = '';
+        var emailErr = '';
+        var errorFlag = false;
+        var usernameErr = '';
+
+        if (password !== passwordConf || password.length === 0 || passwordConf.length === 0) {
+            passwordErr = 'Passwords doesn\'t match';
+            errorFlag = true;
+        }
+        if (/^\d+$/.test(phone) == false || (phone.length !== 10)) {
+            phoneErr = 'Phone number is invalid. Please enter only numbers and exactly 10 digits in number';
+            errorFlag = true;
+        }
+        if (!isEmail(email)) {
+            emailErr = 'Email ID is not valid!';
+            errorFlag = true;
+        }
+        if (username.length == 0) {
+            usernameErr = 'Invalid username';
+            errorFlag = true;
+        }
+
+        if (errorFlag === true) {
+            this.setState({
+                passwordError: passwordErr, 
+                phoneError: phoneErr,
+                emailError: emailErr,
+                usernameError: usernameErr
+            });
+            return; 
+        }
+
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
         app.auth()
             .createUserWithEmailAndPassword(email, password)
@@ -97,6 +132,8 @@ class Signup extends Component {
     render() {
         if (this.props.isAuthenticated)
             this.props.history.push('/');
+
+        const { usernameError, emailError, passwordError, phoneError} = this.state;
 
         return (
             <div>
@@ -140,6 +177,7 @@ class Signup extends Component {
                         <Form.Group controlId="formBasicPassword">
                             <Form.Label>Password Confirmation</Form.Label>
                             <Form.Control type="password" className="password-conf-field" placeholder="Password Confirmation" value={this.state.passwordConf} onChange={this.handlePasswordConfChange} />
+                            <Form.Text className="text-muted"> {this.state.passwordError ? this.state.passwordError : ""} </Form.Text>
                         </Form.Group>
                         {/* <div class="field">
                             <label>Phone</label>
@@ -148,13 +186,22 @@ class Signup extends Component {
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Phone</Form.Label>
                             <Form.Control type="password" className="phone-field" placeholder="Phone number" value={this.state.phone} onChange={this.handlePhoneChange} />
+                            <Form.Text className="text-muted"> {this.state.phoneError ? this.state.phoneError : ""} </Form.Text>
                         </Form.Group>
                         <button type="button" className="ui button" onClick={this.handleSubmit}>Submit</button> 
                     </Form>
                     </Col>
                     <Col></Col>
                 </Row>
+                <Row>
+                    <p> Already have an account?
+                        <Link to="/login" >
+                            Login
+                        </Link>
+                    </p>
+                </Row>
                 </Container>
+                
             </div> 
         )
     }

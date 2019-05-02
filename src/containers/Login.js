@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import app from '../firebaseConfig';
 import firebase from 'firebase';
 
@@ -101,7 +101,15 @@ class Login extends React.Component {
                             </Col>
                         <Col></Col>
                     </Row>
+                    <Row>
+                        <p> Don't have an account?
+                            <Link to="/signup">
+                                Signup
+                            </Link>
+                        </p>
+                    </Row>
                 </Container>
+                
             </div> 
         )
     }
