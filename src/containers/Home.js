@@ -40,10 +40,6 @@ class Home extends Component {
 
     
     render() {
-<<<<<<< HEAD
-=======
-        
->>>>>>> 4cd9b930dddd79ff7d00212d6e82a5be2f834841
         if (this.props.isAuthenticated) {
             return (    
                 <StudentHome />
