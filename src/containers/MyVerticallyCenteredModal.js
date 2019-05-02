@@ -16,7 +16,7 @@ class MyVerticallyCenteredModal extends React.Component {
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
-          <Modal.Header closeButton>
+        <Modal.Header closeButton>
             <Modal.Title className={classes.heading} id="contained-modal-title-vcenter">
               {"Give " + this.props.data.letSubject + ", Get "  + this.props.data.takeSubject}
             </Modal.Title>
