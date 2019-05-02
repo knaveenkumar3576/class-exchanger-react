@@ -40,7 +40,6 @@ class Home extends Component {
 
     
     render() {
-        this.props.history.push('/');
         
         if (this.props.isAuthenticated) {
             return (    
