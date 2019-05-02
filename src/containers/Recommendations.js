@@ -19,7 +19,6 @@ class Recommendations extends Component {
             modalShow : false,
             recommendations: [],
             selectedRecommendation: null,
-            user: 1
         }
     }
 
@@ -34,68 +33,56 @@ class Recommendations extends Component {
 
     refreshReco = () => {
 
-        console.log("refreshReco");
-
-        let sampledata = [
-            {
-                '4': [
-                    [{'giver': 1, 'taker': 0, 'subject': ['CSE502']}, {'giver': 2, 'taker': 1, 'subject': ['CSE503']}, {'giver': 3, 'taker': 2, 'subject': ['CSE504']}, {'giver': 0, 'taker': 3, 'subject': ['CSE501']}]
-                ]
-            },
-            {
-                '4': [
-                    [{'giver': 1, 'taker': 0, 'subject': ['CSE512']}, {'giver': 2, 'taker': 1, 'subject': ['CSE523']}, {'giver': 3, 'taker': 2, 'subject': ['CSE544']}, {'giver': 0, 'taker': 3, 'subject': ['CSE501']}]
-                ]
-            },
-        ]
-
-        let selected = Math.floor(Math.random() * 20) %2;
-
-        console.log(selected);
-
-        for (let cycleValue in sampledata[selected]) {
-            let recommendations=[];
-            console.log(sampledata[selected])
-            sampledata[selected][cycleValue].forEach((currCycleData) => {
-                let nodes =[];
-                let edges =[];    
-                let letSubject ="";
-                let takeSubject ="";
-
-                currCycleData.forEach((transaction) => {
-                    console.log(transaction)
-                    let subjects = transaction.subject.join(",")
-                    nodes.push({
-                        id : transaction.giver,
-                        label : transaction.giver.toString()
-                    });
-
-                    edges.push({
-                        id : transaction.giver + "_" + transaction.taker,
-                        source: transaction.giver,
-                        target: transaction.taker,
-                        label: subjects
+        axiosHandler.get('/reco/' + this.props.user)
+        .then(response => {
+            if(response.data != null) {
+                let sampledata = response.data;
+                for (let cycleValue in sampledata) {
+                    let recommendations=[];
+                    sampledata[cycleValue].forEach((currCycleData) => {
+                        let nodes =[];
+                        let edges =[];    
+                        let letSubject ="";
+                        let takeSubject ="";
+        
+                        currCycleData.forEach((transaction) => {
+                            console.log(transaction)
+                            let subjects = transaction.subject.join(",")
+                            
+                            nodes.push({
+                                id : transaction.giver,
+                                label : transaction.giver.toString()
+                            });
+        
+                            edges.push({
+                                id : transaction.giver + "_" + transaction.taker,
+                                source: transaction.giver,
+                                target: transaction.taker,
+                                label: subjects
+                            })
+                            
+                            if(transaction.giver == this.props.user) letSubject = subjects;
+                            if(transaction.taker == this.props.user) takeSubject = subjects;
+        
+                        })
+        
+                        recommendations.push({
+                            cycleLen: cycleValue,
+                            nodes : nodes,
+                            edges : edges,
+                            letSubject : letSubject,
+                            takeSubject: takeSubject
+                        });
+                
                     })
                     
-                    if(transaction.giver == this.state.user) letSubject = subjects;
-                    if(transaction.taker == this.state.user) takeSubject = subjects;
-
-                })
-
-                recommendations.push({
-                    cycleLen: cycleValue,
-                    nodes : nodes,
-                    edges : edges,
-                    letSubject : letSubject,
-                    takeSubject: takeSubject
-                });
+                    this.setState({
+                        recommendations:recommendations
+                    })
+                }
         
-            })
-            
-            this.setState({
-                recommendations:recommendations
-            })
-        }
+            }
+        }); 
          
     }
 

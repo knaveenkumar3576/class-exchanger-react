@@ -45,6 +45,7 @@ class Signup extends Component {
             username: event.target.value
         })
     }
+
     handleEmailChange(event) {
         this.setState({
             email: event.target.value

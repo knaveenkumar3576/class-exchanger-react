@@ -23,6 +23,23 @@ class Profile extends Component {
         }
     }
 
+
+    refreshUserInfo = () => {
+        axiosHandler.get('/info/' + this.props.user)
+        .then(response => {
+            console.log("info" + JSON.stringify(response));
+            
+            if(response.data != null) {
+                this.setState({
+                    selected_courses : {
+                        has : response.data.has || [],
+                        wants : response.data.wants || []
+                    }
+                })    
+            }
+        });        
+    }
+
     componentDidMount() {
         axiosHandler.get('/list_subjects')
         .then(response => {
@@ -41,24 +58,17 @@ class Profile extends Component {
                 course_info: courses
             });
         });
+
+        if(this.props.user !== "") {
+            this.refreshUserInfo();
+        }
+
     }
 
     componentDidUpdate(prevProps) {
 
         if(this.props.user !== prevProps.user) {
-            axiosHandler.get('/info/' + this.props.user)
-            .then(response => {
-                console.log("info" + JSON.stringify(response));
-                
-                if(response.data != null) {
-                    this.setState({
-                        selected_courses : {
-                            has : response.data.has || [],
-                            wants : response.data.wants || []
-                        }
-                    })    
-                }
-            });    
+            this.refreshUserInfo();
         }
 
     }
@@ -99,22 +109,45 @@ class Profile extends Component {
     }
   
     handleSavePreferences = () => {
+        if(this.state.selected_courses.has.length > 0 ) {
+            axiosHandler.post("addHas/" + this.props.user + "/" + this.state.selected_courses.has.join(","))
+            .then((response) => {
+                console.log("Added");
+            })
+            .catch(function(response){
+                console.log('Failed to save has' + response);
+            });               
+        } else {
+            axiosHandler.post("removeHas/" + this.props.user)
+            .then((response) => {
+                console.log("Removed");
+            })
+            .catch(function(response){
+                console.log('Failed to save has' + response);
+            });               
 
-        axiosHandler.post("addHas/" + this.props.user + "/" + this.state.selected_courses.has.join(","))
-        .then((response) => {
-            console.log("Success");
-        })
-        .catch(function(response){
-            console.log('Failed to save has' + response);
-        });           
+        }
 
-        axiosHandler.post("addWants/" + this.props.user + "/" + this.state.selected_courses.wants.join(","))
-        .then((response) => {
-            console.log("Success");
-        })
-        .catch(function(response){
-            console.log('Failed to save wants' + response);
-        });           
+        if(this.state.selected_courses.wants.length > 0 ) {
+            axiosHandler.post("addWants/" + this.props.user + "/" + this.state.selected_courses.wants.join(","))
+            .then((response) => {
+                console.log("Success");
+            })
+            .catch(function(response){
+                console.log('Failed to save wants' + response);
+            });           
+        } else {
+            axiosHandler.post("removeWants/" + this.props.user)
+            .then((response) => {
+                console.log("Removed");
+            })
+            .catch(function(response){
+                console.log('Failed to save has' + response);
+            });               
+
+        }
+
+
     }    
 
     render() {
