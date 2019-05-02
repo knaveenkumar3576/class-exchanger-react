@@ -13,6 +13,7 @@ import AppHeader from '../components/AppHeader'
 import Tabs from './Tabs.js'
 import Profile from '../containers/Profile'
 import Recommendations from '../containers/Recommendations'
+import Analytics from '../containers/Analytics'
 
 import classes from './StudentHome.css'
 
@@ -56,9 +57,10 @@ class StudentHome extends Component {
     
     render() {
         const { activeTabIndex } = this.state;
-        const tabs = ['Profile', 'Recommendations'];
+        const tabs = ['Profile', 'Recommendations', "Analytics"];
 
-        let selectedTabContent = this.state.activeTabIndex== 0 ? (<Profile />) : (<Recommendations/>)
+        let selectedTabContent = this.state.activeTabIndex== 0 ? (<Profile />) : 
+                                (this.state.activeTabIndex == 1 ? (<Recommendations/>) : (<Analytics/>)) 
 
         return (
             
