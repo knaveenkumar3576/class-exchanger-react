@@ -24,6 +24,7 @@ class Signup extends Component {
             passwordErr : "",
             phone: '',
             phoneErr : "",
+            validErr : ""
         };
 
         this.handleUsernameChange = this.handleUsernameChange.bind(this); // Username is fuillnane
@@ -157,7 +158,12 @@ class Signup extends Component {
                 this.props.history.push("/");
             })
             .catch((error) => {
-                console.log("error signing up" + error);
+                
+                this.setState( {
+                    validErr : error.message
+                });
+
+                console.log("error signing up" + error.message);
             });
         });
     }
@@ -222,6 +228,7 @@ class Signup extends Component {
                         <Button type="button" onClick={this.handleSubmit}>
                             Submit
                         </Button>
+                        <Form.Text className="text-muted"> {this.state.validErr ? this.state.validErr : ""} </Form.Text>
                     </Form>
                     </Col>
                     <Col></Col>

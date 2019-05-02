@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import * as authActions from '../store/actions/auth'
 
 import StudentHome from './StudentHome'
-
+import Login from './Login'
 
 class Home extends Component {
 
@@ -47,16 +47,8 @@ class Home extends Component {
         }
         else {
             return (
-                <div>
-                    <p>Landing Page</p>
-                    <Link to="/login" >
-                        Login
-                    </Link>
-                    <Link to="/signup">
-                        Create new account
-                    </Link>
-                </div> 
-            )
+                <Login />
+            )    
         }
     }
 
