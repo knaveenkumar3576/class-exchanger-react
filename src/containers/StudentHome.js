@@ -57,7 +57,7 @@ class StudentHome extends Component {
     
     render() {
         const { activeTabIndex } = this.state;
-        const tabs = ['Profile', 'Recommendations', "Analytics"];
+        const tabs = ['Profile', 'Recommendations'];
 
         let selectedTabContent = this.state.activeTabIndex== 0 ? (<Profile />) : 
                                 (this.state.activeTabIndex == 1 ? (<Recommendations/>) : (<Analytics/>)) 

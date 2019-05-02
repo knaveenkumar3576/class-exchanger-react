@@ -4,6 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 import {Row, Col, Container, Button, Tabs, Tab} from 'react-bootstrap'
 
 import axiosHandler from '../HOC/axios-course';
+import axiosRetry from 'axios-retry';
 import {connect} from 'react-redux'
 
 import SuperSelect from '../components/SuperSelect'
@@ -109,6 +110,9 @@ class Profile extends Component {
     }
   
     handleSavePreferences = () => {
+
+        axiosRetry(axiosHandler, { retryDelay: axiosRetry.exponentialDelay});
+ 
         if(this.state.selected_courses.has.length > 0 ) {
             axiosHandler.post("addHas/" + this.props.user + "/" + this.state.selected_courses.has.join(","))
             .then((response) => {
