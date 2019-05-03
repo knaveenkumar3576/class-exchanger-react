@@ -10,12 +10,12 @@ import firebase from "firebase";
 // });
 
 const app = firebase.initializeApp({
-    apiKey: "AIzaSyBHBaAJcjdeONbd8uxIoFz7a2m81FBWZF0",
-    authDomain: "class-exchanger.firebaseapp.com",
-    databaseURL: "https://class-exchanger.firebaseio.com",
-    projectId: "class-exchanger",
-    storageBucket: "class-exchanger.appspot.com",
-    messagingSenderId: "311193080804"
+    apiKey: "XXXXXX",
+    authDomain: "XXXXXX",
+    databaseURL: "XXXXXX",
+    projectId: "XXXXXX",
+    storageBucket: "XXXXXX",
+    messagingSenderId: "XXXXXX"
 });
 
 
